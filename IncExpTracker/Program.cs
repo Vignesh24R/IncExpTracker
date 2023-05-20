@@ -47,12 +47,13 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IMinimumAmtRepository, MinimumAmtRepository>();
 builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
 builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
+builder.Services.AddScoped<IReportRepository,ReportRepository>();
 
 builder.Services.AddTransient<IUserBLL , UserBLL>();
 builder.Services.AddTransient<IMinimumAmtBLL, MinimumAmountBLL>();
 builder.Services.AddTransient<IIncomeBLL, IncomeBLL>();
 builder.Services.AddTransient<IExpenseBLL, ExpenseBLL>();
-//builder.Services.AddTransient<UserBLL>();
+builder.Services.AddTransient<IReportBLL,ReportBLL>();
 //builder.Services.AddTransient<MinAmountBLL>();
 //builder.Services.AddTransient<IncomeBLL>();
 
