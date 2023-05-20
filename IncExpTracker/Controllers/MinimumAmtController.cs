@@ -1,6 +1,8 @@
-﻿using Data_Access_Layer.Models;
+﻿using Business_Logic_Layer.Interfaces;
+using Data_Access_Layer.DTO;
+using Data_Access_Layer.Interfaces;
+using Data_Access_Layer.Models;
 using Data_Access_Layer.Models.DTO;
-using Data_Access_Layer.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,12 +13,12 @@ namespace IncExpTracker_API.Controllers
     [ApiController]
     public class MinimumAmtController : ControllerBase
     {
-        private readonly IMinimumAmtRepository _minimumAmtRepository;
+        private readonly IMinimumAmtBLL _minimumAmtBLL;
         //private readonly AppDbContext _context;
 
-        public MinimumAmtController(IMinimumAmtRepository minimumAmtRepository)
+        public MinimumAmtController(IMinimumAmtBLL minimumAmtBLL)
         {
-            _minimumAmtRepository = minimumAmtRepository;
+            _minimumAmtBLL = minimumAmtBLL;
         }
 
         [HttpGet("{userRefId}")]
@@ -24,7 +26,7 @@ namespace IncExpTracker_API.Controllers
         {
             try
             {
-                var minimumAmt = await _minimumAmtRepository.GetMinimumAmtByUserRefId(userRefId);
+                var minimumAmt = await _minimumAmtBLL.GetMinimumAmtByUserRefId(userRefId);
 
                 if (minimumAmt == null)
                 {
@@ -60,7 +62,7 @@ namespace IncExpTracker_API.Controllers
                     UpdatedTime = DateTime.Now
                 };
 
-                await _minimumAmtRepository.CreateMinimumAmt(minimumAmt);
+                await _minimumAmtBLL.CreateMinimumAmt(minimumAmt);
 
                 var minimumAmtDto = new MinimumAmtDTO
                 {
@@ -85,7 +87,7 @@ namespace IncExpTracker_API.Controllers
         {
             try
             {
-                var existingMinimumAmt = await _minimumAmtRepository.GetMinimumAmtByUserRefId(userRefId);
+                var existingMinimumAmt = await _minimumAmtBLL.GetMinimumAmtByUserRefId(userRefId);
 
                 if (existingMinimumAmt == null)
                 {
@@ -95,7 +97,7 @@ namespace IncExpTracker_API.Controllers
                 existingMinimumAmt.MinAmt = updateMinimumAmtDto.MinAmt;
                 existingMinimumAmt.UpdatedTime = DateTime.Now;
 
-                await _minimumAmtRepository.UpdateMinimumAmt(existingMinimumAmt);
+                await _minimumAmtBLL.UpdateMinimumAmt(existingMinimumAmt);
 
                 var minimumAmtDto = new MinimumAmtDTO
                 {
@@ -119,13 +121,13 @@ namespace IncExpTracker_API.Controllers
         {
             try
             {
-                var existingMinimumAmt = await _minimumAmtRepository.GetMinimumAmtByUserRefId(userRefId);
+                var existingMinimumAmt = await _minimumAmtBLL.GetMinimumAmtByUserRefId(userRefId);
                 if (existingMinimumAmt == null)
                 {
                     return NotFound();
                 }
 
-                await _minimumAmtRepository.DeleteMinimumAmt(existingMinimumAmt.UserRefId);
+                await _minimumAmtBLL.DeleteMinimumAmt(existingMinimumAmt.UserRefId);
 
                 return NoContent();
             }

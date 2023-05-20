@@ -1,8 +1,10 @@
 ﻿using Data_Access_Layer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Data_Access_Layer.Repository;
+using Data_Access_Layer.DTO;
+using Data_Access_Layer.Interfaces;
 using Data_Access_Layer.Models.DTO;
+using Business_Logic_Layer.Interfaces;
 
 namespace IncExpTracker_API.Controllers
 {
@@ -10,11 +12,11 @@ namespace IncExpTracker_API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserBLL _userBLL;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserBLL userBLL)
         {
-            _userRepository = userRepository;
+            _userBLL = userBLL;
         }
 
 
@@ -23,7 +25,7 @@ namespace IncExpTracker_API.Controllers
         {
             try
             {
-                var user = await _userRepository.GetUserById(id);
+                var user = await _userBLL.GetUserById(id);
                 if (user == null)
                     return NotFound();
 
@@ -41,13 +43,13 @@ namespace IncExpTracker_API.Controllers
         {
             try
             {
-                var existingUser = await _userRepository.GetUserByEmail(user.EmailId);
+                var existingUser = await _userBLL.GetUserByEmail(user.EmailId);
                 if (existingUser != null)
                 {
-                    return Conflict($"Username '{user.EmailId}' already exists.");
+                    return Conflict($"EmailId '{user.EmailId}' already exists.");
                 }
 
-                var createdUser = await _userRepository.CreateUser(user);
+                var createdUser = await _userBLL.CreateUser(user);
                 return Ok(createdUser);
             }
             catch (Exception ex)
@@ -62,11 +64,11 @@ namespace IncExpTracker_API.Controllers
         {
             try
             {
-                var existingUser = await _userRepository.GetUserById(id);
+                var existingUser = await _userBLL.GetUserById(id);
                 if (existingUser == null)
                     return NotFound();
 
-                var updatedUser = await _userRepository.UpdateUser(user,id);
+                var updatedUser = await _userBLL.UpdateUser(user,id);
                 return Ok(updatedUser);
             }
             catch (Exception ex)
@@ -79,7 +81,7 @@ namespace IncExpTracker_API.Controllers
         [HttpPost("Login")]
         public async Task<LoginResponseDTO> Login(LoginRequestDTO model)
         {
-            var isAuthenticated = await _userRepository.Login(model.EmailId, model.Password);
+            var isAuthenticated = await _userBLL.Login(model.EmailId, model.Password);
 
             //if (isAuthenticated)
               //  return "Invalid email or password";

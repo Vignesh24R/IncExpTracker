@@ -1,4 +1,6 @@
-﻿using Data_Access_Layer.Models;
+﻿using Data_Access_Layer.DTO;
+using Data_Access_Layer.Interfaces;
+using Data_Access_Layer.Models;
 using Data_Access_Layer.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 using System;

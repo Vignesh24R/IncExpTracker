@@ -1,7 +1,8 @@
 ﻿using Data_Access_Layer.Models.DTO;
-using Data_Access_Layer.Repository;
+using Data_Access_Layer.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Business_Logic_Layer.Interfaces;
 
 namespace IncExpTracker_API.Controllers
 {
@@ -9,11 +10,11 @@ namespace IncExpTracker_API.Controllers
     [ApiController]
     public class IncomeController : ControllerBase
     {
-        private readonly IIncomeRepository _incomeRepository;
+        private readonly IIncomeBLL _incomeBLL;
 
-        public IncomeController(IIncomeRepository incomeRepository)
+        public IncomeController(IIncomeBLL incomeBLL)
         {
-            _incomeRepository = incomeRepository;
+            _incomeBLL = incomeBLL;
         }
 
         // POST: api/Income
@@ -22,7 +23,7 @@ namespace IncExpTracker_API.Controllers
         {
             try
             {
-                await _incomeRepository.CreateIncome(incomeDTO);
+                await _incomeBLL.CreateIncome(incomeDTO);
                 return Ok();
             }
             catch (Exception ex)
@@ -56,7 +57,7 @@ namespace IncExpTracker_API.Controllers
         {
             try
             {
-                var incomeDTOs = await _incomeRepository.GetIncomeByUserRefId(userRefId);
+                var incomeDTOs = await _incomeBLL.GetIncomeByUserRefId(userRefId);
 
                 if (incomeDTOs == null || incomeDTOs.Count == 0)
                     return NotFound();
@@ -75,7 +76,7 @@ namespace IncExpTracker_API.Controllers
         {
             try
             {
-                await _incomeRepository.UpdateIncome(incomeId, userRefId, incomeDTO);
+                await _incomeBLL.UpdateIncome(incomeId, userRefId, incomeDTO);
                 return Ok();
             }
             catch (Exception ex)
@@ -90,7 +91,7 @@ namespace IncExpTracker_API.Controllers
         {
             try
             {
-                await _incomeRepository.DeleteIncome(incomeId, userRefId);
+                await _incomeBLL.DeleteIncome(incomeId, userRefId);
                 return Ok();
             }
             catch (Exception ex)

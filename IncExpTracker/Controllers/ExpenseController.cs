@@ -1,5 +1,7 @@
-﻿using Data_Access_Layer.Models.DTO;
-using Data_Access_Layer.Repository;
+﻿using Business_Logic_Layer.Interfaces;
+using Data_Access_Layer.DTO;
+using Data_Access_Layer.Interfaces;
+using Data_Access_Layer.Models.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +12,10 @@ namespace IncExpTracker_API.Controllers
     public class ExpenseController : ControllerBase
     {
        
-        private readonly IExpenseRepository _expenseRepository;
-        public ExpenseController(IExpenseRepository expenseRepository)
+        private readonly IExpenseBLL _expenseBLL;
+        public ExpenseController(IExpenseBLL expenseBLL)
         {
-            _expenseRepository = expenseRepository;
+            _expenseBLL = expenseBLL;
         }
 
         [HttpPost]
@@ -21,7 +23,7 @@ namespace IncExpTracker_API.Controllers
         {
             try
             {
-                var createdExpense = _expenseRepository.CreateExpense(expenseDto);
+                var createdExpense = _expenseBLL.CreateExpense(expenseDto);
                 return Ok(createdExpense);
             }
             catch (Exception ex)
@@ -36,7 +38,7 @@ namespace IncExpTracker_API.Controllers
         {
             try
             {
-                var expense = _expenseRepository.GetExpenseByUserRefId(userRefId);
+                var expense = _expenseBLL.GetExpenseByUserRefId(userRefId);
                 if (expense == null)
                     return NotFound();
 
@@ -54,7 +56,7 @@ namespace IncExpTracker_API.Controllers
         {
             try
             {
-                var updatedExpense = _expenseRepository.UpdateExpense(expenseId, userRefId, expenseDto);
+                var updatedExpense = _expenseBLL.UpdateExpense(expenseId, userRefId, expenseDto);
                 if (!updatedExpense)
                     return NotFound();
 
@@ -72,7 +74,7 @@ namespace IncExpTracker_API.Controllers
         {
             try
             {
-                var deleted = _expenseRepository.DeleteExpense(userRefId, expenseId);
+                var deleted = _expenseBLL.DeleteExpense(userRefId, expenseId);
                 if (!deleted)
                     return NotFound();
 

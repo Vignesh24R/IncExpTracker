@@ -1,3 +1,6 @@
+using Business_Logic_Layer.Interfaces;
+using Business_Logic_Layer.Services;
+using Data_Access_Layer.Interfaces;
 using Data_Access_Layer.Models;
 using Data_Access_Layer.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -44,6 +47,16 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IMinimumAmtRepository, MinimumAmtRepository>();
 builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
 builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
+
+builder.Services.AddTransient<IUserBLL , UserBLL>();
+builder.Services.AddTransient<IMinimumAmtBLL, MinimumAmountBLL>();
+builder.Services.AddTransient<IIncomeBLL, IncomeBLL>();
+builder.Services.AddTransient<IExpenseBLL, ExpenseBLL>();
+//builder.Services.AddTransient<UserBLL>();
+//builder.Services.AddTransient<MinAmountBLL>();
+//builder.Services.AddTransient<IncomeBLL>();
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

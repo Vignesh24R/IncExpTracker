@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data_Access_Layer.Models.DTO
+namespace Data_Access_Layer.DTO
 {
     public class LoginRequestDTO
     {

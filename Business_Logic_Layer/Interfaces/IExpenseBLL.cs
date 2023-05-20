@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data_Access_Layer.Repository
+namespace Business_Logic_Layer.Interfaces
 {
-    public interface IExpenseRepository
+    public interface IExpenseBLL
     {
         ExpenseDTO CreateExpense(ExpenseDTO expenseDto);
         ExpenseDTO GetExpenseByUserRefId(int userRefId);
