@@ -17,7 +17,7 @@ namespace IncExpTracker_API.Controllers
             _reportBLL = reportBLL;
         }
 
-        [HttpGet("{userRefId}")]
+        [HttpGet("Income/{userRefId}")]
         public async Task<ActionResult<List<IncomeReportDTO>>> GetIncomeByUserRefId(int userRefId)
         {
             try
@@ -27,13 +27,12 @@ namespace IncExpTracker_API.Controllers
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it according to your application's requirements
                 return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while retrieving income records. {ex}");
             }
 
         }
 
-        [HttpGet]
+        [HttpGet("Income")]
         public async Task<ActionResult<List<IncomeDTO>>> GetIncomeByDateRange(int userRefId,DateTime fromDate, DateTime toDate)
         {
             try
@@ -46,6 +45,51 @@ namespace IncExpTracker_API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving income records.");
             }
         }
+
+
+        [HttpGet("Expense/{userRefId}")]
+        public async Task<ActionResult<List<ExpenseDTO>>> GetExpensesByUserRefId(int userRefId)
+        {
+            try
+            {
+                var expenses = await _reportBLL.GetExpensesByUserRefId(userRefId);
+                return Ok(expenses);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving income records.");
+            }
+
+        }
+
+        [HttpGet("Expense/dateRange")]
+        public async Task<ActionResult<List<ExpenseDTO>>> GetExpensesByDateRange(int userRefId, DateTime fromDate, DateTime toDate)
+        {
+            try
+            {
+                var expenses = await _reportBLL.GetExpensesByDateRange(userRefId,fromDate, toDate);
+                return Ok(expenses);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while retrieving expenses by date range.");
+            }
+        }
+
+        [HttpGet("Expense/report")]
+        public async Task<ActionResult<List<ExpenseReportDTO>>> GetExpenseReportByCategory()
+        {
+            try
+            {
+                var expenseReport = await _reportBLL.GetExpenseReportByCategory();
+                return Ok(expenseReport);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while retrieving expense report by category.");
+            }
+        }
+
 
     }
 }

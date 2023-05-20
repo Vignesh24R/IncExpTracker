@@ -43,6 +43,7 @@ builder.Services.AddAuthentication(u =>
 });
 
 builder.Services.AddControllers();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IMinimumAmtRepository, MinimumAmtRepository>();
 builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
@@ -54,6 +55,7 @@ builder.Services.AddTransient<IMinimumAmtBLL, MinimumAmountBLL>();
 builder.Services.AddTransient<IIncomeBLL, IncomeBLL>();
 builder.Services.AddTransient<IExpenseBLL, ExpenseBLL>();
 builder.Services.AddTransient<IReportBLL,ReportBLL>();
+
 //builder.Services.AddTransient<MinAmountBLL>();
 //builder.Services.AddTransient<IncomeBLL>();
 
