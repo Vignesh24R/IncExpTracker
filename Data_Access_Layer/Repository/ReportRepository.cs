@@ -85,9 +85,10 @@ namespace Data_Access_Layer.Repository
             }
         }
 
-        public async Task<List<ExpReportCategoryDTO>> GetExpenseReportByCategory()
+        public async Task<List<ExpReportCategoryDTO>> GetExpenseReportByCategory(int userRefId)
         {
             return await _dbContext.Expenses
+                .Where(e => e.UserRefId == userRefId)
                 .GroupBy(e => e.Categories)
                 .Select(g => new ExpReportCategoryDTO
                 {

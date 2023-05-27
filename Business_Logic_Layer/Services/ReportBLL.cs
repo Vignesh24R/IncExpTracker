@@ -39,9 +39,9 @@ namespace Business_Logic_Layer.Services
             var res = _reportRepo.GetExpensesByDateRange(userRefId, fromDate, toDate);
             return res;
         }
-        public Task<List<ExpReportCategoryDTO>> GetExpenseReportByCategory()
+        public Task<List<ExpReportCategoryDTO>> GetExpenseReportByCategory(int userRefId)
         {
-            var res = _reportRepo.GetExpenseReportByCategory();
+            var res = _reportRepo.GetExpenseReportByCategory(userRefId);
             return res;
         }
 

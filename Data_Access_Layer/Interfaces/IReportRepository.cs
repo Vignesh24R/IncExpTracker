@@ -14,7 +14,7 @@ namespace Data_Access_Layer.Interfaces
         Task<List<IncomeReportDTO>> GetIncomeByDateRange(int userRefId, DateTime fromDate, DateTime toDate);
         Task<List<ExpenseReportDTO>> GetExpensesByUserRefId(int userRefId);
         Task<List<ExpenseReportDTO>> GetExpensesByDateRange(int userRefId, DateTime fromDate, DateTime toDate);
-        Task<List<ExpReportCategoryDTO>> GetExpenseReportByCategory();
+        Task<List<ExpReportCategoryDTO>> GetExpenseReportByCategory(int userRefId);
     }
 
 }

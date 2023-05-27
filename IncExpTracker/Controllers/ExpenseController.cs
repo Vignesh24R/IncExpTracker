@@ -2,6 +2,7 @@
 using Data_Access_Layer.DTO;
 using Data_Access_Layer.Interfaces;
 using Data_Access_Layer.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +34,8 @@ namespace IncExpTracker_API.Controllers
             }
         }
 
-        [HttpGet("user/{userRefId}")]
+        //[Authorize]
+        [HttpGet("{userRefId}")]
         public ActionResult<ExpenseDTO> GetExpenseByUserRefId(int userRefId)
         {
             try
@@ -51,7 +53,7 @@ namespace IncExpTracker_API.Controllers
             }
         }
 
-        [HttpPut("{expenseId}/user/{userRefId}")]
+        [HttpPut("{expenseId}/{userRefId}")]
         public ActionResult<ExpenseDTO> UpdateExpense(int expenseId, int userRefId, ExpenseDTO expenseDto)
         {
             try
@@ -69,7 +71,7 @@ namespace IncExpTracker_API.Controllers
             }
         }
 
-        [HttpDelete("{expenseId}/user/{userRefId}")]
+        [HttpDelete("{expenseId}/{userRefId}")]
         public ActionResult DeleteExpense(int expenseId, int userRefId)
         {
             try

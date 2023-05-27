@@ -77,11 +77,11 @@ namespace IncExpTracker_API.Controllers
         }
 
         [HttpGet("Expense/report")]
-        public async Task<ActionResult<List<ExpenseReportDTO>>> GetExpenseReportByCategory()
+        public async Task<ActionResult<List<ExpenseReportDTO>>> GetExpenseReportByCategory(int userRefId)
         {
             try
             {
-                var expenseReport = await _reportBLL.GetExpenseReportByCategory();
+                var expenseReport = await _reportBLL.GetExpenseReportByCategory(userRefId);
                 return Ok(expenseReport);
             }
             catch (Exception ex)

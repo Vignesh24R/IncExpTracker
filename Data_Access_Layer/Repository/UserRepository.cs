@@ -73,7 +73,9 @@ namespace Data_Access_Layer.Repository
             {
                 Subject = new System.Security.Claims.ClaimsIdentity(new Claim[]
                 {
+
                     new Claim("EmailId", user.EmailId.ToString()),
+                    new Claim("id",user.UserId.ToString()),
                     new Claim("Password",user.Password)
                    //new Claim(ClaimTypes.Version, "V3.1")
                 }),
