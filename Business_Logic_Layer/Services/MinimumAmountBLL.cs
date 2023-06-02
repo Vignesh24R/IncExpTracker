@@ -21,28 +21,68 @@ namespace Business_Logic_Layer.Services
 
         public Task<MinimumAmtDTO> GetMinimumAmtByUserRefId(int userRefId)
         {
-            var res = _minAmtRepo.GetMinimumAmtByUserRefId(userRefId); 
-            return res;
+            
+            try
+            {
+                var res = _minAmtRepo.GetMinimumAmtByUserRefId(userRefId);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("An error occurred while getting Minimum Amount");
+            }
         }
         public Task CreateMinimumAmt(MinimumAmtDTO minimumAmtDto)
         {
-            var res = _minAmtRepo.CreateMinimumAmt(minimumAmtDto);
-            return res;
+            
+            try
+            {
+                var res = _minAmtRepo.CreateMinimumAmt(minimumAmtDto);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("An error occurred while creating Minimum Amount");
+            }
         }
         public Task UpdateMinimumAmt(MinimumAmtDTO minimumAmtDto)
         {
-            var res = _minAmtRepo.UpdateMinimumAmt(minimumAmtDto);
-            return res;
+            
+            try
+            {
+                var res = _minAmtRepo.UpdateMinimumAmt(minimumAmtDto);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("An error occurred while Updating Minimum Amount");
+            }
         }
         public Task DeleteMinimumAmt(int userRefId)
         {
-            var res = _minAmtRepo.DeleteMinimumAmt(userRefId);
-            return res;
+            
+            try
+            {
+                var res = _minAmtRepo.DeleteMinimumAmt(userRefId);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("An error occurred while Deleting Minimum Amount");
+            }
         }
         public Task CreateMinimumAmt(MinimumAmt minimumAmt)
         {
-            var res = _minAmtRepo.CreateMinimumAmt(minimumAmt);
-            return res;
+            
+            try
+            {
+                var res = _minAmtRepo.CreateMinimumAmt(minimumAmt);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("An error occurred while creating Minimum Amount");
+            }
         }
     }
 }

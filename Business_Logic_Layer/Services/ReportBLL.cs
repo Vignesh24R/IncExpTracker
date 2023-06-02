@@ -20,29 +20,70 @@ namespace Business_Logic_Layer.Services
 
         public Task<List<IncomeReportDTO>> GetIncomeByUserRefId(int userRefId)
         {
-            var res = _reportRepo.GetIncomeByUserRefId(userRefId);
-            return res;
+            
+            try
+            {
+                var res = _reportRepo.GetIncomeByUserRefId(userRefId);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("An error occurred ");
+            }
         }
         public Task<List<IncomeReportDTO>> GetIncomeByDateRange(int userRefId, DateTime fromDate, DateTime toDate)
         {
-            var res = _reportRepo.GetIncomeByDateRange(userRefId, fromDate, toDate);
-            return res;
+            
+            try
+            {
+                var res = _reportRepo.GetIncomeByDateRange(userRefId, fromDate, toDate);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("An error occurred ");
+            }
+
         }
 
         public Task<List<ExpenseReportDTO>> GetExpensesByUserRefId(int userRefId)
         {
-            var res = _reportRepo.GetExpensesByUserRefId(userRefId);
-            return res;
+            
+            try
+            {
+                var res = _reportRepo.GetExpensesByUserRefId(userRefId);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("An error occurred ");
+            }
         }
         public Task<List<ExpenseReportDTO>> GetExpensesByDateRange(int userRefId, DateTime fromDate, DateTime toDate)
         {
-            var res = _reportRepo.GetExpensesByDateRange(userRefId, fromDate, toDate);
-            return res;
+            
+            try
+            {
+                var res = _reportRepo.GetExpensesByDateRange(userRefId, fromDate, toDate);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("An error occurred ");
+            }
         }
         public Task<List<ExpReportCategoryDTO>> GetExpenseReportByCategory(int userRefId)
         {
-            var res = _reportRepo.GetExpenseReportByCategory(userRefId);
-            return res;
+            
+            try
+            {
+                var res = _reportRepo.GetExpenseReportByCategory(userRefId);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("An error occurred ");
+            }
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿using Business_Logic_Layer.Interfaces;
 using Data_Access_Layer.Interfaces;
 using Data_Access_Layer.Models.DTO;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,24 +21,54 @@ namespace Business_Logic_Layer.Services
 
         public Task CreateIncome(IncomeDTO incomeDTO)
         {
-            var res = _incomeRepo.CreateIncome(incomeDTO);
-            return res;
+            try
+            {
+                var res = _incomeRepo.CreateIncome(incomeDTO);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirements
+                throw new ArgumentException("An error occurred while Creating income"); ;
+            }
+           
         }
         public Task<List<IncomeDTO>> GetIncomeByUserRefId(int userRefId)
         {
-            var res = _incomeRepo.GetIncomeByUserRefId(userRefId);
-            return res;
+            try
+            {
+                var res = _incomeRepo.GetIncomeByUserRefId(userRefId);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("An error occurred while getting income");
+            }
+
         }
         public Task UpdateIncome(int incomeId, int userRefId, IncomeDTO incomeDTO)
         {
-            var res = _incomeRepo.UpdateIncome(incomeId, userRefId, incomeDTO);
-            return res;
+            try
+            {
+                var res = _incomeRepo.UpdateIncome(incomeId, userRefId, incomeDTO);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("An error occurred while Updating income");
+            }
         }
         public Task DeleteIncome(int incomeId, int userRefId)
         {
-            var res = DeleteIncome(incomeId, userRefId);
-            return res;
-
+            try
+            {
+                var res = DeleteIncome(incomeId, userRefId);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("An error occurred while Deleting income");
+            }
         }
 
     }

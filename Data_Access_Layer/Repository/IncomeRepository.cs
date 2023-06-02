@@ -22,16 +22,48 @@ namespace Data_Access_Layer.Repository
 
         public async Task CreateIncome(IncomeDTO incomeDTO)
         {
-            var income = new Income
+            try
             {
-                UserRefId = incomeDTO.UserRefId,
-                IncomeAmt = incomeDTO.IncomeAmt,
-                Source = incomeDTO.Source,
-                UpdatedDate = DateTime.UtcNow
-            };
+                var income = new Income
+                {
+                    UserRefId = incomeDTO.UserRefId,
+                    IncomeAmt = incomeDTO.IncomeAmt,
+                    Source = incomeDTO.Source,
+                    UpdatedDate = DateTime.UtcNow
+                };
 
-            _context.Incomes.Add(income);
-            await _context.SaveChangesAsync();
+                _context.Incomes.Add(income);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirements
+                throw;
+            }
+        }
+
+        public async Task<List<IncomeDTO>> GetIncomeByUserRefId(int userRefId)
+        {
+            try
+            {
+                var incomes = await _context.Incomes
+                    .Where(i => i.UserRefId == userRefId)
+                    .ToListAsync();
+
+                var incomeDTOs = incomes.Select(i => new IncomeDTO
+                {
+                    UserRefId = i.UserRefId,
+                    IncomeAmt = i.IncomeAmt,
+                    Source = i.Source,
+                }).ToList();
+
+                return incomeDTOs;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirements
+                throw;
+            }
         }
 
         /*public async Task<IncomeDTO> GetIncomeByUserRefId(int userRefId)
@@ -52,47 +84,45 @@ namespace Data_Access_Layer.Repository
         }
         */
 
-        public async Task<List<IncomeDTO>> GetIncomeByUserRefId(int userRefId)
-        {
-            // Retrieve the income records for the specified user
-            var incomes = await _context.Incomes
-                .Where(i => i.UserRefId == userRefId)
-                .ToListAsync();
-
-            // Map the Income entities to IncomeDTOs
-            var incomeDTOs = incomes.Select(i => new IncomeDTO
-            {
-                UserRefId = i.UserRefId,
-                IncomeAmt = i.IncomeAmt,
-                Source = i.Source,
-            }).ToList();
-
-            return incomeDTOs;
-        }
-
         public async Task UpdateIncome(int incomeId, int userRefId, IncomeDTO incomeDTO)
         {
-            var income = await _context.Incomes.FirstOrDefaultAsync(i => i.IncomeId == incomeId && i.UserRefId == userRefId);
+            try
+            {
+                var income = await _context.Incomes.FirstOrDefaultAsync(i => i.IncomeId == incomeId && i.UserRefId == userRefId);
 
-            if (income == null)
-                throw new Exception("Income not found.");
+                if (income == null)
+                    throw new Exception("Income not found.");
 
-            income.IncomeAmt = incomeDTO.IncomeAmt;
-            income.Source = incomeDTO.Source;
-            income.UpdatedDate = DateTime.UtcNow;
+                income.IncomeAmt = incomeDTO.IncomeAmt;
+                income.Source = incomeDTO.Source;
+                income.UpdatedDate = DateTime.UtcNow;
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirements
+                throw;
+            }
         }
 
         public async Task DeleteIncome(int incomeId, int userRefId)
         {
-            var income = await _context.Incomes.FirstOrDefaultAsync(i => i.IncomeId == incomeId && i.UserRefId == userRefId);
+            try
+            {
+                var income = await _context.Incomes.FirstOrDefaultAsync(i => i.IncomeId == incomeId && i.UserRefId == userRefId);
 
-            if (income == null)
-                throw new Exception("Income not found.");
+                if (income == null)
+                    throw new Exception("Income not found.");
 
-            _context.Incomes.Remove(income);
-            await _context.SaveChangesAsync();
+                _context.Incomes.Remove(income);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirements
+                throw;
+            }
         }
     }
 }

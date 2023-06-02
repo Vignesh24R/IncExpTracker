@@ -20,26 +20,58 @@ namespace Business_Logic_Layer.Services
 
         public ExpenseDTO CreateExpense(ExpenseDTO expenseDto)
         {
-            var res = _expenseRepo.CreateExpense(expenseDto);
-            return res;
+            try
+            {
+                var res = _expenseRepo.CreateExpense(expenseDto);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirements
+                throw new ArgumentException("An error occurred while Creating");
+            }
         }
+
         public ExpenseDTO GetExpenseByUserRefId(int userRefId)
         {
-            var res = _expenseRepo.GetExpenseByUserRefId(userRefId);
-            return res;
+            try
+            {
+                var res = _expenseRepo.GetExpenseByUserRefId(userRefId);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirements
+                throw new ArgumentException("An error occurred while Getting the expense");
+            }
         }
+
         public bool UpdateExpense(int expenseId, int userRefId, ExpenseDTO expenseDto)
         {
-            var res = _expenseRepo.UpdateExpense(expenseId, userRefId, expenseDto);
-            return res;
+            try
+            {
+                var res = _expenseRepo.UpdateExpense(expenseId, userRefId, expenseDto);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirements
+                throw new ArgumentException("An error occurred while updating expense");
+            }
         }
+
         public bool DeleteExpense(int userRefId, int expenseId)
         {
-            var res = _expenseRepo.DeleteExpense(userRefId,expenseId);
-            return res;
+            try
+            {
+                var res = _expenseRepo.DeleteExpense(userRefId, expenseId);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirements
+                throw new ArgumentException("An error occurred while Deleting expenses");
+            }
         }
-
-        
-
     }
 }

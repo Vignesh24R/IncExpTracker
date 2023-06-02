@@ -21,31 +21,71 @@ namespace Business_Logic_Layer.Services
 
         public Task<User> GetUserById(int id)
         {
-            var res = _userRepo.GetUserById(id);
-            return res;
+            
+            try
+            {
+                var res = _userRepo.GetUserById(id);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("An error occurred while Getting User");
+            }
         }
         public Task<User> GetUserByEmail(string emailid)
         {
-            var res = _userRepo.GetUserByEmail(emailid);
-            return res;
+            
+            try
+            {
+                var res = _userRepo.GetUserByEmail(emailid);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("An error occurred while Getting User By Email");
+            }
         }
 
         public Task<User> CreateUser(User user)
         {
-            var res = _userRepo.CreateUser(user);
-            return res;
+            
+            try
+            {
+                var res = _userRepo.CreateUser(user);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("An error occurred while Creating User");
+            }
         }
 
         public Task<User> UpdateUser(User user, int id) 
         {
-            var res = _userRepo.UpdateUser(user,id);
-            return res;
+            
+            try
+            {
+                var res = _userRepo.UpdateUser(user, id);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("An error occurred while Updating User");
+            }
         }
 
         public  Task<LoginResponseDTO> Login(string emailId, string password)
         {
-            var res = _userRepo.Login(emailId,password);
-            return res;
+            
+            try
+            {
+                var res = _userRepo.Login(emailId, password);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("An error occurred while User Login.");
+            }
         }
     }
 }

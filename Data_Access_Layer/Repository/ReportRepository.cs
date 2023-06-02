@@ -22,15 +22,22 @@ namespace Data_Access_Layer.Repository
 
         public async Task<List<IncomeReportDTO>> GetIncomeByUserRefId(int userRefId)
         {
-            return await _dbContext.Incomes
-                .Where(i => i.UserRefId == userRefId)
-                .Select(i => new IncomeReportDTO
-                {
-                    Source = i.Source,
-                    IncomeAmt = i.IncomeAmt,
-                    UpdatedDate = i.UpdatedDate
-                })
-                .ToListAsync();
+            try
+            {
+                return await _dbContext.Incomes
+                    .Where(i => i.UserRefId == userRefId)
+                    .Select(i => new IncomeReportDTO
+                    {
+                        Source = i.Source,
+                        IncomeAmt = i.IncomeAmt,
+                        UpdatedDate = i.UpdatedDate
+                    })
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
            //  decimal totalIncomeAmt = await _dbContext.Incomes
@@ -39,28 +46,42 @@ namespace Data_Access_Layer.Repository
 
         public async Task<List<IncomeReportDTO>> GetIncomeByDateRange(int userRefId, DateTime fromDate, DateTime toDate)
         {
-            return await _dbContext.Incomes
-                .Where(i => i.UserRefId == userRefId && i.UpdatedDate >= fromDate && i.UpdatedDate <= toDate)
-                .Select(i => new IncomeReportDTO
-                {
-                    Source = i.Source,
-                    IncomeAmt = i.IncomeAmt,
-                    UpdatedDate = i.UpdatedDate
-                })
-                .ToListAsync();
+            try
+            {
+                return await _dbContext.Incomes
+                    .Where(i => i.UserRefId == userRefId && i.UpdatedDate >= fromDate && i.UpdatedDate <= toDate)
+                    .Select(i => new IncomeReportDTO
+                    {
+                        Source = i.Source,
+                        IncomeAmt = i.IncomeAmt,
+                        UpdatedDate = i.UpdatedDate
+                    })
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<List<ExpenseReportDTO>> GetExpensesByUserRefId(int userRefId)
         {
-            return await _dbContext.Expenses
-                .Where(e => e.UserRefId == userRefId)
-                .Select(e => new ExpenseReportDTO
-                {
-                    Source = e.Categories,
-                    ExpenseAmt = e.ExpenseAmt,
-                    UpdatedDate = e.UpdatedDate
-                })
-                .ToListAsync();
+            try
+            {
+                return await _dbContext.Expenses
+                    .Where(e => e.UserRefId == userRefId)
+                    .Select(e => new ExpenseReportDTO
+                    {
+                        Source = e.Categories,
+                        ExpenseAmt = e.ExpenseAmt,
+                        UpdatedDate = e.UpdatedDate
+                    })
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<List<ExpenseReportDTO>> GetExpensesByDateRange(int userRefId, DateTime fromDate, DateTime toDate)
@@ -87,15 +108,22 @@ namespace Data_Access_Layer.Repository
 
         public async Task<List<ExpReportCategoryDTO>> GetExpenseReportByCategory(int userRefId)
         {
-            return await _dbContext.Expenses
-                .Where(e => e.UserRefId == userRefId)
-                .GroupBy(e => e.Categories)
-                .Select(g => new ExpReportCategoryDTO
-                {
-                    Category = g.Key,
-                    TotalExpenseAmt = g.Sum(e => e.ExpenseAmt)
-                })
-                .ToListAsync();
+            try
+            {
+                return await _dbContext.Expenses
+                    .Where(e => e.UserRefId == userRefId)
+                    .GroupBy(e => e.Categories)
+                    .Select(g => new ExpReportCategoryDTO
+                    {
+                        Category = g.Key,
+                        TotalExpenseAmt = g.Sum(e => e.ExpenseAmt)
+                    })
+                    .ToListAsync();
+            }
+            catch (Exception ex) 
+            {
+                throw;
+            }
         }
 
 

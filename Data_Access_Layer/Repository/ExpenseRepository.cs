@@ -21,71 +21,103 @@ namespace Data_Access_Layer.Repository
 
         public ExpenseDTO CreateExpense(ExpenseDTO expenseDto)
         {
-            var expense = new Expense
+            try
             {
-                UserRefId = expenseDto.UserRefId,
-                ExpenseAmt = expenseDto.ExpenseAmt,
-                Categories = expenseDto.Categories,
-                Particulars = expenseDto.Particulars,
-                UpdatedDate = DateTime.Now
-            };
+                var expense = new Expense
+                {
+                    UserRefId = expenseDto.UserRefId,
+                    ExpenseAmt = expenseDto.ExpenseAmt,
+                    Categories = expenseDto.Categories,
+                    Particulars = expenseDto.Particulars,
+                    UpdatedDate = DateTime.Now
+                };
 
-            _dbContext.Expenses.Add(expense);
-            _dbContext.SaveChanges();
+                _dbContext.Expenses.Add(expense);
+                _dbContext.SaveChanges();
 
-            expenseDto.ExpenseId = expense.ExpenseId; // Update the DTO with the generated ExpenseId
+                expenseDto.ExpenseId = expense.ExpenseId; // Update the DTO with the generated ExpenseId
 
-            return expenseDto;
+                return expenseDto;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirements
+                throw;
+            }
         }
 
         public ExpenseDTO GetExpenseByUserRefId(int userRefId)
         {
-            var expense = _dbContext.Expenses.FirstOrDefault(e => e.UserRefId == userRefId);
-
-            if (expense == null)
-                return null;
-
-            var expenseDto = new ExpenseDTO
+            try
             {
-                ExpenseId = expense.ExpenseId,
-                UserRefId = expense.UserRefId,
-                ExpenseAmt = expense.ExpenseAmt,
-                Categories = expense.Categories,
-                Particulars = expense.Particulars,
-                UpdatedDate = expense.UpdatedDate
-            };
+                var expense = _dbContext.Expenses.FirstOrDefault(e => e.UserRefId == userRefId);
 
-            return expenseDto;
+                if (expense == null)
+                    return null;
+
+                var expenseDto = new ExpenseDTO
+                {
+                    ExpenseId = expense.ExpenseId,
+                    UserRefId = expense.UserRefId,
+                    ExpenseAmt = expense.ExpenseAmt,
+                    Categories = expense.Categories,
+                    Particulars = expense.Particulars,
+                    UpdatedDate = expense.UpdatedDate
+                };
+
+                return expenseDto;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirements
+                throw;
+            }
         }
 
         public bool UpdateExpense(int expenseId, int userRefId, ExpenseDTO expenseDto)
         {
-            var expense = _dbContext.Expenses.FirstOrDefault(e => e.ExpenseId == expenseId && e.UserRefId == userRefId);
+            try
+            {
+                var expense = _dbContext.Expenses.FirstOrDefault(e => e.ExpenseId == expenseId && e.UserRefId == userRefId);
 
-            if (expense == null)
-                return false;
+                if (expense == null)
+                    return false;
 
-            expense.ExpenseAmt = expenseDto.ExpenseAmt;
-            expense.Categories = expenseDto.Categories;
-            expense.Particulars = expenseDto.Particulars;
-            expense.UpdatedDate = DateTime.Now;
+                expense.ExpenseAmt = expenseDto.ExpenseAmt;
+                expense.Categories = expenseDto.Categories;
+                expense.Particulars = expenseDto.Particulars;
+                expense.UpdatedDate = DateTime.Now;
 
-            _dbContext.SaveChanges();
+                _dbContext.SaveChanges();
 
-            return true;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirements
+                throw;
+            }
         }
 
         public bool DeleteExpense(int userRefId, int expenseId)
         {
-            var expense = _dbContext.Expenses.FirstOrDefault(e => e.ExpenseId == expenseId && e.UserRefId == userRefId);
+            try
+            {
+                var expense = _dbContext.Expenses.FirstOrDefault(e => e.ExpenseId == expenseId && e.UserRefId == userRefId);
 
-            if (expense == null)
-                return false;
+                if (expense == null)
+                    return false;
 
-            _dbContext.Expenses.Remove(expense);
-            _dbContext.SaveChanges();
+                _dbContext.Expenses.Remove(expense);
+                _dbContext.SaveChanges();
 
-            return true;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirements
+                throw;
+            }
         }
     }
 }
