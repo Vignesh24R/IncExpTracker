@@ -3,6 +3,7 @@ using Data_Access_Layer.Interfaces;
 using Data_Access_Layer.Models;
 using Data_Access_Layer.Models.DTO;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,15 +16,18 @@ namespace Data_Access_Layer.Repository
     {
         private readonly AppDbContext _dbContext;
 
-        public ReportRepository(AppDbContext dbContext)
+        private readonly ILogger<ReportRepository> _logger;
+        public ReportRepository(AppDbContext dbContext, ILogger<ReportRepository> logger)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
 
         public async Task<List<IncomeReportDTO>> GetIncomeByUserRefId(int userRefId)
         {
             try
             {
+                _logger.LogInformation("Initiated GetIncomeByUserRefId");
                 return await _dbContext.Incomes
                     .Where(i => i.UserRefId == userRefId)
                     .Select(i => new IncomeReportDTO
@@ -36,6 +40,7 @@ namespace Data_Access_Layer.Repository
             }
             catch (Exception ex)
             {
+                _logger.LogError("Error Occured in GetIncomeByUserRefId");
                 throw;
             }
         }
@@ -48,6 +53,7 @@ namespace Data_Access_Layer.Repository
         {
             try
             {
+                _logger.LogInformation("Initiated GetIncomeByDateRange");
                 return await _dbContext.Incomes
                     .Where(i => i.UserRefId == userRefId && i.UpdatedDate >= fromDate && i.UpdatedDate <= toDate)
                     .Select(i => new IncomeReportDTO
@@ -60,6 +66,7 @@ namespace Data_Access_Layer.Repository
             }
             catch (Exception ex)
             {
+                _logger.LogError("Error Occured in GetIncomeByDateRange");
                 throw;
             }
         }
@@ -68,6 +75,7 @@ namespace Data_Access_Layer.Repository
         {
             try
             {
+                _logger.LogInformation("Initiated GetExpensesByUserRefId");
                 return await _dbContext.Expenses
                     .Where(e => e.UserRefId == userRefId)
                     .Select(e => new ExpenseReportDTO
@@ -80,6 +88,7 @@ namespace Data_Access_Layer.Repository
             }
             catch (Exception ex)
             {
+                _logger.LogError("Error Occured in GetExpensesByUserRefId");
                 throw;
             }
         }
@@ -88,6 +97,7 @@ namespace Data_Access_Layer.Repository
         {
             try
             {
+                _logger.LogInformation("Initiated GetExpensesByDateRange");
                 var expenses = await _dbContext.Expenses
                     .Where(e => e.UserRefId == userRefId && e.UpdatedDate >= fromDate && e.UpdatedDate <= toDate)
                     .Select(e => new ExpenseReportDTO
@@ -102,6 +112,7 @@ namespace Data_Access_Layer.Repository
             }
             catch (Exception ex)
             {
+                _logger.LogError("Error Occured in GetExpensesByDateRange");
                 throw new ApplicationException("Failed to retrieve expenses for the specified user and date range.", ex);
             }
         }
@@ -110,6 +121,7 @@ namespace Data_Access_Layer.Repository
         {
             try
             {
+                _logger.LogInformation("Initiated GetExpenseReportByCategory");
                 return await _dbContext.Expenses
                     .Where(e => e.UserRefId == userRefId)
                     .GroupBy(e => e.Categories)
@@ -122,6 +134,7 @@ namespace Data_Access_Layer.Repository
             }
             catch (Exception ex) 
             {
+                _logger.LogError("Error Occured in GetExpenseReportByCategory");
                 throw;
             }
         }

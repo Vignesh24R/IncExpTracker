@@ -7,6 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="log4net" Version="2.0.15" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5">
 			<PrivateAssets>All</PrivateAssets>
@@ -19,6 +20,7 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="6.1.0" />
 	</ItemGroup>
 
 </Project>

@@ -2,6 +2,8 @@
 using Data_Access_Layer.Interfaces;
 using Data_Access_Layer.Models;
 using Data_Access_Layer.Models.DTO;
+using log4net.Core;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +16,11 @@ namespace Business_Logic_Layer.Services
     {
         private readonly IUserRepository _userRepo;
 
-        public UserBLL(IUserRepository userRepo)
+        private readonly ILogger<UserBLL> _logger;
+        public UserBLL(IUserRepository userRepo, ILogger<UserBLL> logger)
         {
             _userRepo = userRepo;
+            _logger = logger;
         }
 
         public Task<User> GetUserById(int id)
@@ -24,11 +28,13 @@ namespace Business_Logic_Layer.Services
             
             try
             {
+                _logger.LogInformation("Initiated GetUserById");
                 var res = _userRepo.GetUserById(id);
                 return res;
             }
             catch (Exception ex)
             {
+                _logger.LogError("Error Occured while Getting user details");
                 throw new ArgumentException("An error occurred while Getting User");
             }
         }
@@ -37,11 +43,13 @@ namespace Business_Logic_Layer.Services
             
             try
             {
+                _logger.LogInformation("Initiated GetUserByEmail");
                 var res = _userRepo.GetUserByEmail(emailid);
                 return res;
             }
             catch (Exception ex)
             {
+                _logger.LogError("Error Occured while Getting user Email details");
                 throw new ArgumentException("An error occurred while Getting User By Email");
             }
         }
@@ -51,11 +59,15 @@ namespace Business_Logic_Layer.Services
             
             try
             {
+                
                 var res = _userRepo.CreateUser(user);
+                _logger.LogInformation("User Created successfully");
                 return res;
+
             }
             catch (Exception ex)
             {
+                _logger.LogError("Error occured while creating user");
                 throw new ArgumentException("An error occurred while Creating User");
             }
         }
@@ -65,11 +77,13 @@ namespace Business_Logic_Layer.Services
             
             try
             {
+                _logger.LogInformation("User Updated successfully");
                 var res = _userRepo.UpdateUser(user, id);
                 return res;
             }
             catch (Exception ex)
             {
+                _logger.LogError("Error occured while Updating user");
                 throw new ArgumentException("An error occurred while Updating User");
             }
         }
@@ -79,11 +93,14 @@ namespace Business_Logic_Layer.Services
             
             try
             {
+
                 var res = _userRepo.Login(emailId, password);
+                _logger.LogInformation("Login Successful");
                 return res;
             }
             catch (Exception ex)
             {
+                _logger.LogError("Login Failed");
                 throw new ArgumentException("An error occurred while User Login.");
             }
         }

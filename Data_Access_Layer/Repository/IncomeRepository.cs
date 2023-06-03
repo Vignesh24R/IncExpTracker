@@ -3,6 +3,7 @@ using Data_Access_Layer.Interfaces;
 using Data_Access_Layer.Models;
 using Data_Access_Layer.Models.DTO;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,15 +16,18 @@ namespace Data_Access_Layer.Repository
     {
         private readonly AppDbContext _context;
 
-        public IncomeRepository(AppDbContext context)
+        private readonly ILogger<IncomeRepository> _logger;
+        public IncomeRepository(AppDbContext context, ILogger<IncomeRepository> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task CreateIncome(IncomeDTO incomeDTO)
         {
             try
             {
+                _logger.LogInformation("Initiated CreateIncome");
                 var income = new Income
                 {
                     UserRefId = incomeDTO.UserRefId,
@@ -38,6 +42,7 @@ namespace Data_Access_Layer.Repository
             catch (Exception ex)
             {
                 // Log the exception or handle it as per your application's requirements
+                _logger.LogError("Error Occured in CreateIncome");
                 throw;
             }
         }
@@ -46,6 +51,7 @@ namespace Data_Access_Layer.Repository
         {
             try
             {
+                _logger.LogInformation("Initiated GetIncomeByUserRefId");
                 var incomes = await _context.Incomes
                     .Where(i => i.UserRefId == userRefId)
                     .ToListAsync();
@@ -61,7 +67,8 @@ namespace Data_Access_Layer.Repository
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as per your application's requirements
+                // Log the exception or handle it 
+                _logger.LogError("Error Occured in GetIncomeByUserRefId");
                 throw;
             }
         }
@@ -88,11 +95,14 @@ namespace Data_Access_Layer.Repository
         {
             try
             {
+                _logger.LogInformation("Initiated UpdateIncome");
                 var income = await _context.Incomes.FirstOrDefaultAsync(i => i.IncomeId == incomeId && i.UserRefId == userRefId);
 
                 if (income == null)
+                {
+                    _logger.LogInformation("income not found");
                     throw new Exception("Income not found.");
-
+                }
                 income.IncomeAmt = incomeDTO.IncomeAmt;
                 income.Source = incomeDTO.Source;
                 income.UpdatedDate = DateTime.UtcNow;
@@ -101,7 +111,8 @@ namespace Data_Access_Layer.Repository
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as per your application's requirements
+                // Log the exception or handle it 
+                _logger.LogError("Error Occured in UpdateIncome");
                 throw;
             }
         }
@@ -110,6 +121,7 @@ namespace Data_Access_Layer.Repository
         {
             try
             {
+                _logger.LogInformation("Initiated DeleteIncome");
                 var income = await _context.Incomes.FirstOrDefaultAsync(i => i.IncomeId == incomeId && i.UserRefId == userRefId);
 
                 if (income == null)
@@ -120,7 +132,8 @@ namespace Data_Access_Layer.Repository
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as per your application's requirements
+                // Log the exception or handle it
+                _logger.LogError("Error Occured in DeleteIncome");
                 throw;
             }
         }

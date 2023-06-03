@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Data_Access_Layer.Models.DTO;
 using Data_Access_Layer.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Data_Access_Layer.Repository
 {
@@ -14,15 +15,18 @@ namespace Data_Access_Layer.Repository
     {
         private readonly AppDbContext _dbContext;
 
-        public ExpenseRepository(AppDbContext dbContext)
+        private readonly ILogger<ExpenseRepository> _logger;
+        public ExpenseRepository(AppDbContext dbContext, ILogger<ExpenseRepository> logger)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
 
         public ExpenseDTO CreateExpense(ExpenseDTO expenseDto)
         {
             try
             {
+                _logger.LogInformation("Initiated CreateExpense");
                 var expense = new Expense
                 {
                     UserRefId = expenseDto.UserRefId,
@@ -41,7 +45,8 @@ namespace Data_Access_Layer.Repository
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as per your application's requirements
+                // Log the exception or handle it
+                _logger.LogError("Error Occured in CreateExpense");
                 throw;
             }
         }
@@ -50,6 +55,7 @@ namespace Data_Access_Layer.Repository
         {
             try
             {
+                _logger.LogInformation("Initiated GetExpenseByUserRefId");
                 var expense = _dbContext.Expenses.FirstOrDefault(e => e.UserRefId == userRefId);
 
                 if (expense == null)
@@ -69,7 +75,8 @@ namespace Data_Access_Layer.Repository
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as per your application's requirements
+                // Log the exception or handle it
+                _logger.LogError("Error Occured in GetExpenseByUserRefId");
                 throw;
             }
         }
@@ -78,6 +85,7 @@ namespace Data_Access_Layer.Repository
         {
             try
             {
+                _logger.LogInformation("Initiated UpdateExpense");
                 var expense = _dbContext.Expenses.FirstOrDefault(e => e.ExpenseId == expenseId && e.UserRefId == userRefId);
 
                 if (expense == null)
@@ -94,7 +102,8 @@ namespace Data_Access_Layer.Repository
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as per your application's requirements
+                // Log the exception or handle it
+                _logger.LogError("Error Occured in UpdateExpense");
                 throw;
             }
         }
@@ -103,6 +112,7 @@ namespace Data_Access_Layer.Repository
         {
             try
             {
+                _logger.LogInformation("Initiated DeleteExpense");
                 var expense = _dbContext.Expenses.FirstOrDefault(e => e.ExpenseId == expenseId && e.UserRefId == userRefId);
 
                 if (expense == null)
@@ -115,7 +125,8 @@ namespace Data_Access_Layer.Repository
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as per your application's requirements
+                // Log the exception or handle it 
+                _logger.LogError("Error Occured in DeleteExpense");
                 throw;
             }
         }

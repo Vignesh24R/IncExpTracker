@@ -2,9 +2,12 @@
 using Data_Access_Layer.Interfaces;
 using Data_Access_Layer.Models;
 using Data_Access_Layer.Models.DTO;
+using log4net.Core;
+using log4net.Repository.Hierarchy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -21,22 +24,25 @@ namespace Data_Access_Layer.Repository
     {
         private string secretKey;
         private readonly AppDbContext _context;
-
-        public UserRepository(AppDbContext context, IConfiguration configuration)
+        private readonly ILogger<UserRepository> _logger;
+        public UserRepository(AppDbContext context, IConfiguration configuration, ILogger<UserRepository> logger)
         {
             secretKey = configuration.GetValue<string>("AppSettings:Key");
             _context = context;
+            _logger = logger;
         }
 
         public async Task<User> GetUserById(int id)
         {
             try
             {
+                _logger.LogInformation("Initiated C");
                 return await _context.Users.FindAsync(id);
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as per your application's requirements
+                // Log the exception or handle it 
+                _logger.LogError("Error Occured In GetUserById");
                 throw;
             }
         }
@@ -45,11 +51,12 @@ namespace Data_Access_Layer.Repository
         {
             try
             {
+
                 return await _context.Users.FirstOrDefaultAsync(u => u.EmailId == email);
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as per your application's requirements
+                // Log the exception or handle it 
                 throw;
             }
         }
@@ -58,16 +65,28 @@ namespace Data_Access_Layer.Repository
         {
             try
             {
+                var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.EmailId == user.EmailId);
+
+                if (existingUser != null)
+                {
+                    // Email ID already exists in the database
+                    _logger.LogInformation("EmailId Already Exist");
+                    throw new Exception("Email ID already exists");
+                }
+
                 _context.Users.Add(user);
+                _logger.LogInformation("User Created sucessfully");
                 await _context.SaveChangesAsync();
                 return user;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as per your application's requirements
+                // Log the exception or handle it 
+                _logger.LogError("Error occured while creating the user");
                 throw;
             }
         }
+
 
         public async Task<User> UpdateUser(User user, int id)
         {
@@ -79,12 +98,15 @@ namespace Data_Access_Layer.Repository
                 DbUser.Password = user.Password;
                 DbUser.EmailId = user.EmailId;
                 DbUser.ContactNo = user.ContactNo;
+
+                _logger.LogError("User Updated Sucessfully");
                 _context.SaveChanges();
                 return user;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as per your application's requirements
+                // Log the exception or handle it 
+                _logger.LogError("Error occured while creating the user");
                 throw;
             }
         }
@@ -94,6 +116,13 @@ namespace Data_Access_Layer.Repository
             try
             {
                 User user = await _context.Users.FirstOrDefaultAsync(u => u.EmailId == emailId && u.Password == password);
+
+                if (user == null)
+                {
+                    // Email ID not in the database
+                    _logger.LogInformation("User not Exist");
+                    throw new Exception("User not exists");
+                }
 
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes(secretKey);
@@ -115,12 +144,13 @@ namespace Data_Access_Layer.Repository
                     EmailId = user.EmailId,
                     Token = tokenHandler.WriteToken(token)
                 };
-
+                _logger.LogInformation("User Login successful");
                 return loginResponse;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as per your application's requirements
+                // Log the exception or handle it 
+                _logger.LogError("User Login failed");
                 throw;
             }
         }
