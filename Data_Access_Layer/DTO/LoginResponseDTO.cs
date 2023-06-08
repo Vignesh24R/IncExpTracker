@@ -9,6 +9,7 @@ namespace Data_Access_Layer.Models.DTO
     public class LoginResponseDTO
     {
         public string EmailId { get; set; }
+        public int UserId { get; set; }
         public string Token { get; set; }
     }
 }

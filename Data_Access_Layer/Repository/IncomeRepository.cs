@@ -73,24 +73,6 @@ namespace Data_Access_Layer.Repository
             }
         }
 
-        /*public async Task<IncomeDTO> GetIncomeByUserRefId(int userRefId)
-        {
-            var income = await _context.Incomes.FirstOrDefaultAsync(i => i.UserRefId == userRefId);
-
-            if (income == null)
-                return null;
-
-            var incomeDTO = new IncomeDTO
-            {
-                UserRefId = income.UserRefId,
-                IncomeAmt = income.IncomeAmt,
-                Source = income.Source
-            };
-
-            return incomeDTO;
-        }
-        */
-
         public async Task UpdateIncome(int incomeId, int userRefId, IncomeDTO incomeDTO)
         {
             try

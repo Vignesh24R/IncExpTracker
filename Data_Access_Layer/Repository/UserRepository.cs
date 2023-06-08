@@ -142,11 +142,12 @@ namespace Data_Access_Layer.Repository
                 LoginResponseDTO loginResponse = new LoginResponseDTO
                 {
                     EmailId = user.EmailId,
+                    UserId = user.UserId,
                     Token = tokenHandler.WriteToken(token)
                 };
                 _logger.LogInformation("User Login successful");
                 return loginResponse;
-            }
+            }   
             catch (Exception ex)
             {
                 // Log the exception or handle it 

@@ -13,14 +13,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders();
 
+
+
+builder.Services.AddCors();
+
 // add log4net
 builder.Logging.AddLog4Net();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 
 // Add services to the container.
-
-
 
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -79,6 +81,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(o => o.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 app.UseHttpsRedirection();
 
