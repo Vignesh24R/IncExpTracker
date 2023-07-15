@@ -59,8 +59,10 @@ namespace Data_Access_Layer.Repository
                 var incomeDTOs = incomes.Select(i => new IncomeDTO
                 {
                     UserRefId = i.UserRefId,
+                    IncomeId=i.IncomeId,
                     IncomeAmt = i.IncomeAmt,
                     Source = i.Source,
+                    UpdatedDate= i.UpdatedDate
                 }).ToList();
 
                 return incomeDTOs;

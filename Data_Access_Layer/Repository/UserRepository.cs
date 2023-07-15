@@ -143,7 +143,8 @@ namespace Data_Access_Layer.Repository
                 {
                     EmailId = user.EmailId,
                     UserId = user.UserId,
-                    Token = tokenHandler.WriteToken(token)
+                    Token = tokenHandler.WriteToken(token),
+                    FirstName = user.FirstName
                 };
                 _logger.LogInformation("User Login successful");
                 return loginResponse;
@@ -152,7 +153,7 @@ namespace Data_Access_Layer.Repository
             {
                 // Log the exception or handle it 
                 _logger.LogError("User Login failed");
-                throw;
+                throw new Exception("User not exists"); 
             }
         }
     }

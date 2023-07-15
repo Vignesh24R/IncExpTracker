@@ -34,7 +34,7 @@ namespace Business_Logic_Layer.Services
             {
                 // Log the exception or handle it 
                 _logger.LogError("Error Occured in CreateIncome");
-                throw new ArgumentException("An error occurred while Creating income"); ;
+                throw new ArgumentException("An error occurred while Creating income"); 
             }
            
         }

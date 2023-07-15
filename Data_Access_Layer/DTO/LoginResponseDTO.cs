@@ -11,5 +11,6 @@ namespace Data_Access_Layer.Models.DTO
         public string EmailId { get; set; }
         public int UserId { get; set; }
         public string Token { get; set; }
+        public string FirstName { get; set; }
     }
 }
