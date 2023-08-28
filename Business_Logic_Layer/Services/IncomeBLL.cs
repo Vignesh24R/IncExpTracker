@@ -72,7 +72,7 @@ namespace Business_Logic_Layer.Services
             try
             {
                 _logger.LogInformation("Initiated DeleteIncome");
-                var res = DeleteIncome(incomeId, userRefId);
+                var res = _incomeRepo.DeleteIncome(incomeId, userRefId);
                 return res;
             }
             catch (Exception ex)

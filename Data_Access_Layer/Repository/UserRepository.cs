@@ -56,7 +56,7 @@ namespace Data_Access_Layer.Repository
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it 
+                
                 throw;
             }
         }
@@ -132,7 +132,8 @@ namespace Data_Access_Layer.Repository
                     {
                         new Claim("EmailId", user.EmailId.ToString()),
                         new Claim("id",user.UserId.ToString()),
-                        new Claim("Password",user.Password)
+                        new Claim("Password",user.Password),
+                        new Claim("Name",user.FirstName)
                     }),
                     Expires = DateTime.UtcNow.AddDays(2),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

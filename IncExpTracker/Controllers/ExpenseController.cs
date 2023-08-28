@@ -40,7 +40,7 @@ namespace IncExpTracker_API.Controllers
         {
             try
             {
-                var expense = _expenseBLL.GetExpenseByUserRefId(userRefId);
+                var expense = _expenseBLL.GetExpensesByUserRefId(userRefId);
                 if (expense == null)
                     return NotFound();
 

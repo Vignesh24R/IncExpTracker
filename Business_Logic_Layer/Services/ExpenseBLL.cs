@@ -38,12 +38,12 @@ namespace Business_Logic_Layer.Services
             }
         }
 
-        public ExpenseDTO GetExpenseByUserRefId(int userRefId)
+        public List<ExpenseDTO> GetExpensesByUserRefId(int userRefId)
         {
             try
             {
                 _logger.LogInformation("Initiated GetExpenseByUserRefId");
-                var res = _expenseRepo.GetExpenseByUserRefId(userRefId);
+                var res = _expenseRepo.GetExpensesByUserRefId(userRefId);
                 return res;
             }
             catch (Exception ex)

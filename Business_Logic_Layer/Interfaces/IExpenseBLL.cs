@@ -10,7 +10,7 @@ namespace Business_Logic_Layer.Interfaces
     public interface IExpenseBLL
     {
         ExpenseDTO CreateExpense(ExpenseDTO expenseDto);
-        ExpenseDTO GetExpenseByUserRefId(int userRefId);
+        List<ExpenseDTO> GetExpensesByUserRefId(int userRefId);
         bool UpdateExpense(int expenseId, int userRefId, ExpenseDTO expenseDto);
         bool DeleteExpense(int userRefId, int expenseId);
     }

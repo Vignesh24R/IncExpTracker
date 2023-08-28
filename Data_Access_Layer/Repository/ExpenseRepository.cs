@@ -51,32 +51,31 @@ namespace Data_Access_Layer.Repository
             }
         }
 
-        public ExpenseDTO GetExpenseByUserRefId(int userRefId)
+        public List<ExpenseDTO> GetExpensesByUserRefId(int userRefId)
         {
             try
             {
-                _logger.LogInformation("Initiated GetExpenseByUserRefId");
-                var expense = _dbContext.Expenses.FirstOrDefault(e => e.UserRefId == userRefId);
+                _logger.LogInformation("Initiated GetExpensesByUserRefId");
+                var expenses = _dbContext.Expenses
+                    .Where(e => e.UserRefId == userRefId)
+                    .ToList();
 
-                if (expense == null)
-                    return null;
-
-                var expenseDto = new ExpenseDTO
+                var expenseDTOs = expenses.Select(e => new ExpenseDTO
                 {
-                    ExpenseId = expense.ExpenseId,
-                    UserRefId = expense.UserRefId,
-                    ExpenseAmt = expense.ExpenseAmt,
-                    Categories = expense.Categories,
-                    Particulars = expense.Particulars,
-                    UpdatedDate = expense.UpdatedDate
-                };
+                    ExpenseId = e.ExpenseId,
+                    UserRefId = e.UserRefId,
+                    ExpenseAmt = e.ExpenseAmt,
+                    Categories = e.Categories,
+                    Particulars = e.Particulars,
+                    UpdatedDate = e.UpdatedDate
+                }).ToList();
 
-                return expenseDto;
+                return expenseDTOs;
             }
             catch (Exception ex)
             {
                 // Log the exception or handle it
-                _logger.LogError("Error Occured in GetExpenseByUserRefId");
+                _logger.LogError("Error Occurred in GetExpensesByUserRefId");
                 throw;
             }
         }

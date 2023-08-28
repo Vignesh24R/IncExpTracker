@@ -10,7 +10,7 @@ namespace Data_Access_Layer.Interfaces
     public interface IExpenseRepository
     {
         ExpenseDTO CreateExpense(ExpenseDTO expenseDto);
-        ExpenseDTO GetExpenseByUserRefId(int userRefId);
+        List<ExpenseDTO> GetExpensesByUserRefId(int userRefId);
         bool UpdateExpense(int expenseId, int userRefId, ExpenseDTO expenseDto);
         bool DeleteExpense(int userRefId, int expenseId);
     }
